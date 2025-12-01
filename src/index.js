@@ -11,7 +11,7 @@ initialCards
   )
   .forEach((cardsElement) => placesList.append(cardsElement));
 
-const openPopupButton = document.querySelector(".profile__edit-button"); // кнопка для открытия попапа
+const openEditProfilePopupButton = document.querySelector(".profile__edit-button"); // кнопка для открытия попапа
 const closePopupButtons = document.querySelectorAll(".popup__close"); //крестики для закрытия попапа
 const profileAddButton = document.querySelector(".profile__add-button"); // кнопка для открытия попапа через +
 const popupProfoleEdit = document.querySelector(".popup_type_edit"); // окно попапа корректировки карточки
@@ -58,7 +58,7 @@ popups.forEach((popup) => {
   });
 });
 
-openPopupButton.addEventListener("click", (popup) => {
+openEditProfilePopupButton.addEventListener("click", (popup) => {
   nameInput.value = profileTitle.textContent;
   jobInput.value = profileDescription.textContent;
 
