@@ -9,42 +9,23 @@ const setInputCustomValidity = (inputElement) => {
 const getErrorElement = (formElement, inputElement) =>
   formElement.querySelector(`#${inputElement.id}-error`);
 
-const createErrorElement = (inputElement) => {
-  const existingErrorElement = document.querySelector(
-    `#${inputElement.id}-error`
-  );
-
-  if (existingErrorElement) {
-    return existingErrorElement;
-  }
-
-  const errorElement = document.createElement("p");
-  errorElement.classList.add("popup__input-error");
-  errorElement.id = `${inputElement.id}-error`;
-  inputElement.setAttribute("aria-describedby", errorElement.id);
-  inputElement.after(errorElement);
-
-  return errorElement;
-};
-
 const showInputError = (formElement, inputElement, validationConfig) => {
-  const errorElement =
-    getErrorElement(formElement, inputElement) ||
-    createErrorElement(inputElement);
+  const errorElement = getErrorElement(formElement, inputElement);
   inputElement.classList.add(validationConfig.inputErrorClass);
-  errorElement.textContent = inputElement.validationMessage;
-  errorElement.classList.add(validationConfig.errorClass);
+
+  if (errorElement) {
+    errorElement.textContent = inputElement.validationMessage;
+    errorElement.classList.add(validationConfig.errorClass);
+  }
 };
 
 const hideInputError = (formElement, inputElement, validationConfig) => {
   const errorElement = getErrorElement(formElement, inputElement);
   inputElement.classList.remove(validationConfig.inputErrorClass);
-  inputElement.removeAttribute("aria-describedby");
 
   if (errorElement) {
     errorElement.textContent = "";
     errorElement.classList.remove(validationConfig.errorClass);
-    errorElement.remove();
   }
 };
 
@@ -95,10 +76,6 @@ export const enableValidation = (validationConfig) => {
   );
 
   formList.forEach((formElement) => {
-    formElement.addEventListener("submit", (event) => {
-      event.preventDefault();
-    });
-
     setEventListeners(formElement, validationConfig);
   });
 };

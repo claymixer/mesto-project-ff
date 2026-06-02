@@ -1,5 +1,5 @@
 import "/src/pages/index.css";
-import { createCard, deleteCard } from "./components/card.js";
+import { createCard, deleteCard, updateCardLike } from "./components/card.js";
 import { openPopup, closePopup } from "./components/modal.js";
 import { enableValidation, clearValidation } from "./components/validation.js";
 import {
@@ -77,16 +77,10 @@ const handleCardDeleteClick = (cardElement, cardId) => {
   openPopup(popupDeleteCard);
 };
 
-const handleCardLike = (cardId, likeButton, likeCount) => {
-  const isLiked = likeButton.classList.contains("card__like-button_is-active");
-
+const handleCardLike = (cardElement, isLiked, cardId) => {
   changeLikeCardStatus(cardId, isLiked)
     .then((card) => {
-      likeButton.classList.toggle(
-        "card__like-button_is-active",
-        card.likes.some((user) => user._id === currentUserId)
-      );
-      likeCount.textContent = card.likes.length;
+      updateCardLike(cardElement, card);
     })
     .catch((err) => {
       console.log(err);
@@ -153,18 +147,16 @@ profileImage.addEventListener("click", () => {
 });
 
 closePopupButtons.forEach((button) => {
+  const popup = button.closest(".popup");
+
   button.addEventListener("click", () => {
-    const popupOpened = document.querySelector(".popup_is-opened");
-    closePopup(popupOpened);
+    closePopup(popup);
   });
 });
 
 // Обработчик «отправки» формы, хотя пока // она никуда отправляться не будет
 function profileEditHandleFormSubmit(evt) {
   evt.preventDefault(); // Эта строчка отменяет стандартную отправку формы.
-  if (!formElementEdit.checkValidity()) {
-    return;
-  }
   // Так мы можем определить свою логику отправки.
   // О том, как это делать, расскажем позже.
 
@@ -194,9 +186,6 @@ formElementEdit.addEventListener("submit", profileEditHandleFormSubmit);
 
 newCardForm.addEventListener("submit", function (event) {
   event.preventDefault(); // Предотвращаем стандартное поведение формы
-  if (!newCardForm.checkValidity()) {
-    return;
-  }
 
   const name = inputNameFormAddNewCard.value;
   const link = inputLinkFormAddNewCard.value;
@@ -213,8 +202,6 @@ newCardForm.addEventListener("submit", function (event) {
       );
 
       placesList.prepend(newCard);
-      newCardForm.reset();
-      clearValidation(newCardForm, validationConfig);
       closePopup(popupNewCard);
     })
     .catch((err) => {
@@ -245,17 +232,12 @@ deleteCardForm.addEventListener("submit", (event) => {
 
 avatarForm.addEventListener("submit", (event) => {
   event.preventDefault();
-  if (!avatarForm.checkValidity()) {
-    return;
-  }
 
   setSubmitButtonText(avatarForm, "Сохранение...");
   updateUserAvatar(avatarInput.value)
     .then((userData) => {
       profileImage.style.backgroundImage = `url(${userData.avatar})`;
       closePopup(popupAvatar);
-      avatarForm.reset();
-      clearValidation(avatarForm, validationConfig);
     })
     .catch((err) => {
       console.log(err);

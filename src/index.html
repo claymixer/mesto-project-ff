@@ -51,7 +51,9 @@
           maxlength="40"
           pattern="[A-Za-zА-Яа-яЁё\- ]+"
           data-error-message="Разрешены только латинские, кириллические буквы, знаки дефиса и пробелы"
+          aria-describedby="profile-name-input-error"
           required>
+        <p class="popup__input-error" id="profile-name-input-error"></p>
         <input
           type="text"
           name="description"
@@ -60,7 +62,9 @@
           placeholder="Занятие"
           minlength="2"
           maxlength="200"
+          aria-describedby="profile-description-input-error"
           required>
+        <p class="popup__input-error" id="profile-description-input-error"></p>
         <button type="submit" class="button popup__button">Сохранить</button>
       </form>
     </div>
@@ -80,14 +84,18 @@
           maxlength="30"
           pattern="[A-Za-zА-Яа-яЁё\- ]+"
           data-error-message="Разрешены только латинские, кириллические буквы, знаки дефиса и пробелы"
+          aria-describedby="place-name-input-error"
           required>
+        <p class="popup__input-error" id="place-name-input-error"></p>
         <input
           type="url"
           name="link"
           id="place-link-input"
           class="popup__input popup__input_type_url"
           placeholder="Ссылка на картинку"
+          aria-describedby="place-link-input-error"
           required>
+        <p class="popup__input-error" id="place-link-input-error"></p>
         <button type="submit" class="button popup__button">Сохранить</button>
       </form>
     </div>
@@ -119,7 +127,9 @@
           id="avatar-link-input"
           class="popup__input popup__input_type_avatar"
           placeholder="Ссылка на новый аватар"
+          aria-describedby="avatar-link-input-error"
           required>
+        <p class="popup__input-error" id="avatar-link-input-error"></p>
         <button type="submit" class="button popup__button">Сохранить</button>
       </form>
     </div>
