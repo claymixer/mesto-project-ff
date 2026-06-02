@@ -1,0 +1,7 @@
+.popup__button_disabled,
+.popup__button_disabled:hover {
+  color: rgba(0, 0, 0, 0.2);
+  background-color: #FFFFFF;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  cursor: default;
+}
